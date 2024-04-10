@@ -1,11 +1,11 @@
-# Build Data Pipeline
+# Build Data Pipeline With Airflow, MongoDB, QdrantDB, and App Search
 
 ## Build data pipeline với docker compose, sử dụng mongoDB và qdrantDB
 
 0. Vào docker-compose.yml và comment các thông số sau:
 ```
   # myapp:
-  #   build: ../app
+  #   build: ../MyApp
   #   ports:
   #     - "9955:9955"
   #   networks:
@@ -50,7 +50,7 @@ airflow scheduler
 1. Mở lại docker-compose.yml và bỏ comment các thông số sau:
 ```
   myapp:
-    build: ../lab7_app
+    build: ../MyApp
     ports:
       - "9955:9955"
     networks:
