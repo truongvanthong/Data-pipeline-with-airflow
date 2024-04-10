@@ -13,9 +13,10 @@ def search(query):
     # thực hiện kết nối với cơ sở dữ liệu qdrant
     client = QdrantClient(host='qdrant_db', port=6333)
     collections = client.get_collections()
-    collection_names = [collection.name for collection in collections.collections]
+    collection_names = [
+        collection.name for collection in collections.collections]
     embedding = [random.random() for i in range(1536)]
-    
+
     if collection_name in collection_names:
         # thực hiện tìm kiếm với vector embedding bên trên
         results = client.search(
@@ -41,11 +42,12 @@ def healthCheck():
     # điền mssv của bạn vào bên dưới
     return jsonify({
         "status": "success",
-        "student_id": 20001955 
+        "student_id": 20001955
     })
 
 # Viết api có route "/search", phương thức POST để nhận vào câu query từ phía ngưới dùng
 # sử dụng hàm search bên trên để tìm kiếm và trả về kết quả của hàm search cho người dùng
+
 @app.route('/search', methods=['POST'])
 def searchView():
     query = request.json['query']
@@ -55,6 +57,7 @@ def searchView():
 @app.route('/', methods=['GET'])
 def home():
     return {"message": "ok"}
+
 
 if __name__ == '__main__':
     # run app với port là "99xy" với xy là 2 số cuối cùng của mssv của bạn. Ví dụ: mssv: 17101691 thì port=9991

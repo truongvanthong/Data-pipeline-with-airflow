@@ -25,6 +25,7 @@ database_mongo = mongo_client["midterm"]
 collection_mongo = database_mongo["20001955"]
 name_collection_qdrant = '20001955'
 
+
 def create_collection_qdrant():
     try:
         # lấy tên tất cả collection hiện có trong Qdrant
@@ -45,7 +46,7 @@ def create_collection_qdrant():
             qdrant_client.recreate_collection(
                 collection_name=name_collection_qdrant,
                 vectors_config=VectorParams(**vectorParams)
-                )
+            )
             return {
                 "status": "success",
                 "collection": name_collection_qdrant,
@@ -57,6 +58,7 @@ def create_collection_qdrant():
             "message": str(e)
         }
 
+
 def insert_data_mongoDB():
     try:
         # đọc dữ liệu từ file data_iuh_new.json và chọn ngẫu nhiên điểm dữ liệu gán vào biến data
@@ -64,16 +66,16 @@ def insert_data_mongoDB():
         with open("/opt/airflow/dags/data_iuh_new.json", "r") as f:
             data = random.choice(json.load(f))
         # kiểm tra title của điểm dữ liệu đã tồn tại trong MongoDB chưa
-        check_exist = bool(collection_mongo.find_one({'title': data['title']}))
         # nếu đã tồn tại thì gán "Data already exists" cho biến message
-        if check_exist:
+        title_lst = [x for x in collection_mongo.find({},{ "title": 0 })]
+        if data['title'] in title_lst:
             message = "Data already exists"
         # nếu chưa thì thêm trường "status": "new" vào data và insert vào MongoDB
         # sau đó gán "Data inserted" cho biến message
-        if not check_exist:
-            data['status'] = 'new'
-            collection_mongo.insert_one(data)
-            message = 'Data inserted'
+        else:
+            data["status"] = "new"
+            _ = collection_mongo.insert_one(data)
+            message = "Data inserted"
 
         title = data["title"]
         return {
@@ -96,16 +98,16 @@ def insert_data_qdrant():
         # sau khi insert thành công thì cập nhật trường "status":"indexed" cho các điểm dữ liệu đã insert trong MongoDB
         for new in allNewData:
             # Loại bỏ các trường "_id" và "embedding" của MongoDB
-            new.pop('_id')
-            vector = new.pop('embedding')
+            id = str(new.pop('_id'))
+            vector = new['embedding']
             point = PointStruct(id=str(uuid.uuid4()),
-                    vector=vector,
-                    payload=new)
+                                vector=vector,
+                                payload=new)
             # Chèn dữ liệu vào Qdrant
-            qdrant_client.upsert(collection_name='20001955', points=[point])
-            # Cập nhật trường "status":"indexed" cho các điểm dữ liệu đã insert trong MongoDB  
-            collection_mongo.update_many({"status": "new"}, {"$set": {"status": "indexed"}})
-                   
+            qdrant_client.upsert(collection_name=name_collection_qdrant, points=[point])
+            # Cập nhật trường "status":"indexed" cho các điểm dữ liệu đã insert trong MongoDB
+            collection_mongo.update_one({"_id": id}, {"$set": {"status": "indexed"}})
+
         return {
             "status": "success",
             "message": "Data inserted to Vector DB successfully"
@@ -144,7 +146,7 @@ def search_by_vector():
         result_json = result[0].model_dump()
         return {
             "status": "success",
-            "result": result_json 
+            "result": str(result_json)
         }
     except Exception as e:
         return {
@@ -152,13 +154,13 @@ def search_by_vector():
             "message": str(e)
         }
 
+
 # đặt owner là mssv của bạn, Thử lại 1 lần nếu thất bại, thời gian chờ giữa các lần thử là 1 phút
 default_args = {
     'owner': '20001955',
     'start_date': dt.datetime.now() - dt.timedelta(minutes=2),
     'retries': 1,
     'retry_delay': dt.timedelta(minutes=1),
-    'student_id': 20001955
 }
 
 # Khởi tạo DAG với tên là mssv của bạn và cài đặt mỗi 5 phút chạy 1 lần
@@ -166,7 +168,7 @@ default_args = {
 with DAG('20001955',
          default_args=default_args,
          tags=['midterm'],
-         schedule_interval=dt.timedelta(minutes=5), 
+         schedule_interval=dt.timedelta(minutes=5),
          ) as dag:
 
     # khởi tạo pipeline sử dụng BashOperator và PythonOperator như sau:
@@ -175,37 +177,37 @@ with DAG('20001955',
         task_id='20001955',
         bash_command='echo "Midterm exam started"',
     )
-    
+
     # task 2: sử dụng PythonOperator để tạo collection trong Qdrant với task_id là 4 chữ số đầu của mssv của bạn (ví dụ: task_id='1710')
     task2 = PythonOperator(
         task_id='2000',
         python_callable=create_collection_qdrant,
     )
-   
+
     # task 3: sử dụng PythonOperator để insert data vào MongoDB với task_id là 3 chữ số cuối của task2 và số kế tiếp trong mssv (ví dụ: task_id='7101')
     task3 = PythonOperator(
         task_id='0019',
         python_callable=insert_data_mongoDB,
     )
- 
+
     # task 4: sử dụng PythonOperator để insert data vào Qdrant với task_id là 3 chữ số cuối của task3 và số kế tiếp trong mssv (ví dụ: task_id='1016')
     task4 = PythonOperator(
         task_id='0195',
         python_callable=insert_data_qdrant,
     )
-    
+
     # task 5: sử dụng PythonOperator để thực hiện hàm count_data với task_id là 3 chữ số cuối của task4 và số kế tiếp trong mssv (ví dụ: task_id='0169')
     task5 = PythonOperator(
         task_id='1955',
         python_callable=count_data,
     )
-    
+
     # task 6: sử dụng PythonOperator để thực hiện search bằng vector với task_id là 3 chữ số cuối của task5 và số kế tiếp trong mssv (ví dụ: task_id='1691')
     task6 = PythonOperator(
         task_id='9550',
         python_callable=search_by_vector,
     )
-    
+
     # task 7: sử dụng BashOperator để in ra "Midterm exam ended" với task_id là 2 số đầu và 2 số cuối của mssv (ví dụ: task_id='1791')
     task7 = BashOperator(
         task_id='2095',

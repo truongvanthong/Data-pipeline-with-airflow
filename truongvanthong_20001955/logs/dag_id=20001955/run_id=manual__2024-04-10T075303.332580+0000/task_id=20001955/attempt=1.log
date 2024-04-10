@@ -1,0 +1,17 @@
+[2024-04-10T07:53:07.425+0000] {taskinstance.py:1979} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: 20001955.20001955 manual__2024-04-10T07:53:03.332580+00:00 [queued]>
+[2024-04-10T07:53:07.431+0000] {taskinstance.py:1979} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: 20001955.20001955 manual__2024-04-10T07:53:03.332580+00:00 [queued]>
+[2024-04-10T07:53:07.432+0000] {taskinstance.py:2193} INFO - Starting attempt 1 of 2
+[2024-04-10T07:53:07.446+0000] {taskinstance.py:2214} INFO - Executing <Task(BashOperator): 20001955> on 2024-04-10 07:53:03.332580+00:00
+[2024-04-10T07:53:07.452+0000] {standard_task_runner.py:60} INFO - Started process 556 to run task
+[2024-04-10T07:53:07.456+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', '20001955', '20001955', 'manual__2024-04-10T07:53:03.332580+00:00', '--job-id', '18', '--raw', '--subdir', 'DAGS_FOLDER/pipeline.py', '--cfg-path', '/tmp/tmpeg4qjons']
+[2024-04-10T07:53:07.459+0000] {standard_task_runner.py:88} INFO - Job 18: Subtask 20001955
+[2024-04-10T07:53:07.699+0000] {task_command.py:423} INFO - Running <TaskInstance: 20001955.20001955 manual__2024-04-10T07:53:03.332580+00:00 [running]> on host c31f526f9f5c
+[2024-04-10T07:53:07.769+0000] {taskinstance.py:2510} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='20001955' AIRFLOW_CTX_DAG_ID='20001955' AIRFLOW_CTX_TASK_ID='20001955' AIRFLOW_CTX_EXECUTION_DATE='2024-04-10T07:53:03.332580+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2024-04-10T07:53:03.332580+00:00'
+[2024-04-10T07:53:07.770+0000] {subprocess.py:63} INFO - Tmp dir root location: /tmp
+[2024-04-10T07:53:07.771+0000] {subprocess.py:75} INFO - Running command: ['/usr/bin/bash', '-c', 'echo "Midterm exam started"']
+[2024-04-10T07:53:07.784+0000] {subprocess.py:86} INFO - Output:
+[2024-04-10T07:53:07.785+0000] {subprocess.py:93} INFO - Midterm exam started
+[2024-04-10T07:53:07.786+0000] {subprocess.py:97} INFO - Command exited with return code 0
+[2024-04-10T07:53:07.809+0000] {taskinstance.py:1149} INFO - Marking task as SUCCESS. dag_id=20001955, task_id=20001955, execution_date=20240410T075303, start_date=20240410T075307, end_date=20240410T075307
+[2024-04-10T07:53:07.868+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2024-04-10T07:53:08.040+0000] {taskinstance.py:3309} INFO - 1 downstream tasks scheduled from follow-on schedule check
