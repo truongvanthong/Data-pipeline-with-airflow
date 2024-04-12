@@ -6,7 +6,7 @@ Vào docker-compose.yml và comment các thông số sau:
   # myapp:
   #   build: ../MyApp
   #   ports:
-  #     - "9955:9955"
+  #     - "5678:5678"
   #   networks:
   #     - qdrant-network
   #   depends_on:
@@ -16,11 +16,11 @@ Vào docker-compose.yml và comment các thông số sau:
 
 0. Mở Docker Desktop
 
-1. Vào truongvanthong_20001955:
+1. Vào truongvanthong_12345678:
    <br>Thư mục chứa `docker-compose.yml`
 
 ```bash
-cd truongvanthong_20001955
+cd truongvanthong_12345678
 ```
 
 2. Build Data Pipeline:
@@ -70,7 +70,7 @@ airflow scheduler
   myapp:
     build: ../MyApp
     ports:
-      - "9955:9955"
+      - "5678:5678"
     networks:
       - qdrant-network
     depends_on:
@@ -85,13 +85,13 @@ docker compose up myapp --build
 ```
 
 3. Truy cập vào App Search UI:
-   > http://localhost:9955/
+   > http://localhost:5678/
 4. Vào file test_Thong.ipynb test:
 
 ```python
 
 import requests
-url = "http://localhost:9955"
+url = "http://localhost:5678"
 response = requests.post(f"{url}/search", json = {"query": "Hội nghị cấp khoa?"})
 response.json()
 
