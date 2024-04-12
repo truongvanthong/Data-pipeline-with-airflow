@@ -1,7 +1,7 @@
 # Build Data Pipeline With Airflow, MongoDB, QdrantDB, and App Search
 
 ## Load images từ file .tar
-
+Link images: https://drive.google.com/file/d/1hgeE_Lao6wQoMtxmh64DEpfca1As3axw/view?usp=sharing
 ```bash
 docker load -i mongo.tar
 ```
