@@ -63,8 +63,13 @@ def insert_data_mongoDB():
     try:
         # đọc dữ liệu từ file data_iuh_new.json và chọn ngẫu nhiên điểm dữ liệu gán vào biến data
         message = ""
+        json_data = None
         with open("/opt/airflow/dags/data_iuh_new.json", "r") as f:
-            data = random.choice(json.load(f))
+            json_data = json.load(f)
+        
+        # Chọn ngẫu nhiên 1 điểm dữ liệu từ file data_iuh_new.json
+        data = json_data[random.randint(0, len(json_data) - 1)]
+        
         # kiểm tra title của điểm dữ liệu đã tồn tại trong MongoDB chưa
         # nếu đã tồn tại thì gán "Data already exists" cho biến message
         title_lst = [x for x in collection_mongo.find({},{ "title": 0 })]

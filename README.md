@@ -25,7 +25,6 @@ docker load -i airflow_khdl16a1.tar
 ```
 
 
-
 Vào docker-compose.yml và comment các thông số sau:
 
 ```

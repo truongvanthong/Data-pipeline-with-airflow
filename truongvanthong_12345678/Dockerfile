@@ -2,7 +2,7 @@
 # với các yêu cầu trong file requirements.txt
 
 # FROM airflow_khdl16a1
-FROM apache/airflow:2.8.2
+FROM apache/airflow:2.8.2 
 
 RUN pip install apache-airflow==${AIRFLOW_VERSION}
 COPY requirements.txt requirements.txt

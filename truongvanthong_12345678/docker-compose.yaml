@@ -125,7 +125,7 @@ services:
         - "27017:27017"
 
 # Build app Search
-  # myapp:
+  # myapp: # docker compose up myapp --build
   #   build: ../MyApp
   #   ports:
   #     - "5678:5678"

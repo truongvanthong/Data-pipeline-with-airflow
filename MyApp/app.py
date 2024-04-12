@@ -61,6 +61,6 @@ def home():
 
 if __name__ == '__main__':
     # run app với port là "99xy" với xy là 2 số cuối cùng của mssv của bạn. Ví dụ: mssv: 17101691 thì port=9991
-    app.run(host='0.0.0.0', port=5678)
+    app.run(host='0.0.0.0', port=5678) #9978
 
 # curl -X POST http://localhost:8989/search -H "Content-Type: application/json" -d '{"query": "hội nghị cấp khoa"}'
