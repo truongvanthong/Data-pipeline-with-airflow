@@ -125,15 +125,15 @@ services:
         - "27017:27017"
 
 # Build app Search
-  myapp:
-    build: ../MyApp
-    ports:
-      - "9955:9955"
-    networks:
-      - qdrant-network
-    depends_on:
-      - qdrant_db
-      - mongodb
+  # myapp:
+  #   build: ../MyApp
+  #   ports:
+  #     - "5678:5678"
+  #   networks:
+  #     - qdrant-network
+  #   depends_on:
+  #     - qdrant_db
+  #     - mongodb
 
   redis:
     image: redis:latest

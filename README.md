@@ -1,6 +1,7 @@
 # Build Data Pipeline With Airflow, MongoDB, QdrantDB, and App Search
 
-0. Vào docker-compose.yml và comment các thông số sau:
+Vào docker-compose.yml và comment các thông số sau:
+
 ```
   # myapp:
   #   build: ../MyApp
@@ -12,40 +13,59 @@
   #     - qdrant_db
   #     - mongodb
 ```
+
 0. Mở Docker Desktop
-1. Vào airflow:
+
+1. Vào truongvanthong_20001955:
+   <br>Thư mục chứa `docker-compose.yml`
+
 ```bash
-cd airflow
+cd truongvanthong_20001955
 ```
+
 2. Build Data Pipeline:
+
 ```bash
 docker compose up --build
 ```
+
 3. Truy cập vào Airflow UI: TK-MK: airflow-airflow
-> http://localhost:8080/
+   > http://localhost:8080/
+
 4. Truy cập vào QdrantDB UI:
-> http://localhost:6333/dashboard
+   > http://localhost:6333/dashboard
+
 5. Mở MongoDB Compass và kết nối đến MongoDB:
-> url: mongodb://localhost:27017
-+ Mở Advanced và chọn Authentication: 
-    + Username: admin
-    + Password: admin
-    + Authentication Database: admin
-6. Thêm fit và json vào thư mục dags:
-+ copy nó vào
-+ New terminal (PS):
+   > url: mongodb://localhost:27017
+
+- Mở Advanced và chọn Authentication:
+  - Username: admin
+  - Password: admin
+  - Authentication Database: admin
+
+6. Thêm pipeline và json vào thư mục dags:
+
+- copy nó vào
+- New terminal (PS):
+
 ```bash
 docker ps
 ```
-+ Lấy id của scheduler airflow
+
+- Lấy id của scheduler airflow
+
 ```bash
 docker exec -it 3id bash
 ```
+
 ```bash
 airflow scheduler
 ```
+
 ## Build App Search
+
 1. Mở lại docker-compose.yml và bỏ comment các thông số sau:
+
 ```
   myapp:
     build: ../MyApp
@@ -57,13 +77,17 @@ airflow scheduler
       - qdrant_db
       - mongodb
 ```
-2. Build App Search: nhớ cd vô airflow
+
+2. Build App Search: nhớ cd vô 20001955_truongvanthong
+
 ```bash
 docker compose up myapp --build
 ```
+
 3. Truy cập vào App Search UI:
-> http://localhost:9955/
+   > http://localhost:9955/
 4. Vào file test_Thong.ipynb test:
+
 ```python
 
 import requests
@@ -83,4 +107,3 @@ output:
  'version': 471}
 
 ```
-

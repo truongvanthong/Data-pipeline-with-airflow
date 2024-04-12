@@ -22,8 +22,8 @@ database_mongo = mongo_client["midterm"]
 
 # Tạo collection có tên là mssv của bạn trong MongoDB và Qdrant
 # Ví dụ mssv của bạn là 17101691 thi tên collection sẽ là "17101691"
-collection_mongo = database_mongo["20001955"]
-name_collection_qdrant = '20001955'
+collection_mongo = database_mongo["12345678"]
+name_collection_qdrant = '12345678'
 
 
 def create_collection_qdrant():
@@ -157,7 +157,7 @@ def search_by_vector():
 
 # đặt owner là mssv của bạn, Thử lại 1 lần nếu thất bại, thời gian chờ giữa các lần thử là 1 phút
 default_args = {
-    'owner': '20001955',
+    'owner': '12345678',
     'start_date': dt.datetime.now() - dt.timedelta(minutes=2),
     'retries': 1,
     'retry_delay': dt.timedelta(minutes=1),
@@ -165,7 +165,7 @@ default_args = {
 
 # Khởi tạo DAG với tên là mssv của bạn và cài đặt mỗi 5 phút chạy 1 lần
 
-with DAG('20001955',
+with DAG('12345678',
          default_args=default_args,
          tags=['midterm'],
          schedule_interval=dt.timedelta(minutes=5),
@@ -174,43 +174,43 @@ with DAG('20001955',
     # khởi tạo pipeline sử dụng BashOperator và PythonOperator như sau:
     # task 1: sử dụng BashOperator để in ra "Midterm exam started" với task_id là mssv của bạn (ví dụ: task_id='17101691')
     task1 = BashOperator(
-        task_id='20001955',
+        task_id='12345678',
         bash_command='echo "Midterm exam started"',
     )
 
     # task 2: sử dụng PythonOperator để tạo collection trong Qdrant với task_id là 4 chữ số đầu của mssv của bạn (ví dụ: task_id='1710')
     task2 = PythonOperator(
-        task_id='2000',
+        task_id='1234',
         python_callable=create_collection_qdrant,
     )
 
     # task 3: sử dụng PythonOperator để insert data vào MongoDB với task_id là 3 chữ số cuối của task2 và số kế tiếp trong mssv (ví dụ: task_id='7101')
     task3 = PythonOperator(
-        task_id='0019',
+        task_id='2345',
         python_callable=insert_data_mongoDB,
     )
 
     # task 4: sử dụng PythonOperator để insert data vào Qdrant với task_id là 3 chữ số cuối của task3 và số kế tiếp trong mssv (ví dụ: task_id='1016')
     task4 = PythonOperator(
-        task_id='0195',
+        task_id='3456',
         python_callable=insert_data_qdrant,
     )
 
     # task 5: sử dụng PythonOperator để thực hiện hàm count_data với task_id là 3 chữ số cuối của task4 và số kế tiếp trong mssv (ví dụ: task_id='0169')
     task5 = PythonOperator(
-        task_id='1955',
+        task_id='4567',
         python_callable=count_data,
     )
 
     # task 6: sử dụng PythonOperator để thực hiện search bằng vector với task_id là 3 chữ số cuối của task5 và số kế tiếp trong mssv (ví dụ: task_id='1691')
     task6 = PythonOperator(
-        task_id='9550',
+        task_id='5678',
         python_callable=search_by_vector,
     )
 
     # task 7: sử dụng BashOperator để in ra "Midterm exam ended" với task_id là 2 số đầu và 2 số cuối của mssv (ví dụ: task_id='1791')
     task7 = BashOperator(
-        task_id='2095',
+        task_id='1278',
         bash_command='echo "Midterm exam ended"',
     )
 

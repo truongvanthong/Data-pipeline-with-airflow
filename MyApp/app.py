@@ -9,7 +9,7 @@ app = flask.Flask(__name__)
 
 def search(query):
     # Đặt tên collection bạn đã tạo khi thực hiện pipeline vào biến bên dưới
-    collection_name = '20001955'
+    collection_name = '12345678'
     # thực hiện kết nối với cơ sở dữ liệu qdrant
     client = QdrantClient(host='qdrant_db', port=6333)
     collections = client.get_collections()
@@ -42,7 +42,7 @@ def healthCheck():
     # điền mssv của bạn vào bên dưới
     return jsonify({
         "status": "success",
-        "student_id": 20001955
+        "student_id": 12345678
     })
 
 # Viết api có route "/search", phương thức POST để nhận vào câu query từ phía ngưới dùng
@@ -61,6 +61,6 @@ def home():
 
 if __name__ == '__main__':
     # run app với port là "99xy" với xy là 2 số cuối cùng của mssv của bạn. Ví dụ: mssv: 17101691 thì port=9991
-    app.run(host='0.0.0.0', port=9955)
+    app.run(host='0.0.0.0', port=5678)
 
 # curl -X POST http://localhost:8989/search -H "Content-Type: application/json" -d '{"query": "hội nghị cấp khoa"}'
