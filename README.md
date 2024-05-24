@@ -1,7 +1,6 @@
 # Build Data Pipeline With Airflow, MongoDB, QdrantDB, and App Search
 
 ## Load images từ file .tar
-Link images: https://drive.google.com/file/d/1hgeE_Lao6wQoMtxmh64DEpfca1As3axw/view?usp=sharing
 ```bash
 docker load -i mongo.tar
 ```
@@ -19,11 +18,6 @@ docker load -i redis.tar
 ```bash
 docker load -i python3911.tar
 ```
-
-```bash
-docker load -i airflow_khdl16a1.tar
-```
-
 
 Vào docker-compose.yml và comment các thông số sau:
 
